@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">WordCards</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="add_newWord">Добавить слово</string>
+    <string name="delete_nWord">Удалить слово</string>
+    <string name="add_newTransl">Добавить перевод</string>
+    <string name="add_newTranscript">Добавить транскрипцию</string>
+    <string name="add_newText">Вставьте текст сюда и нажмите ОК</string>
+    <string name="add_text">Добавить текст</string>
+    <string name="change_word">Редактировать слово</string>
+
+    <string name="learning_count">Изучаемых слов</string>
+    <string name="learned_count">Изученных слов</string>
+    <string name="stats">Статистика</string>
+
+</resources>

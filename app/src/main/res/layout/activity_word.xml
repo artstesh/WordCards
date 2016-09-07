@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:context="artstesh.wordcards.WordActivity"
+    >
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etWord"
+        android:hint="word"
+        android:enabled="true"
+        android:textAlignment="center"
+        android:textSize="45dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_word"
+        android:id="@+id/btnChange"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        style="@android:style/Widget.Holo.Light.ActionButton.Overflow"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etTranscriprion"
+        android:layout_below="@+id/etWord"
+        android:layout_alignEnd="@+id/etWord"
+        android:layout_alignStart="@+id/etWord"
+        android:enabled="true"
+        android:textAlignment="center"
+        android:textColor="#a62222"
+        android:textSize="45dp"/>
+
+</RelativeLayout>

@@ -21,7 +21,7 @@ public class RandomWord
 
 	public Word getRandomWord()
 	{
-		//Collections.shuffle(words300);
+	//Collections.shuffle(words300);
 		if(words300.size()<1) {return new Word();}
 		int rand = (int) (Math.random()*words300.size());
 		int stoper = 10;

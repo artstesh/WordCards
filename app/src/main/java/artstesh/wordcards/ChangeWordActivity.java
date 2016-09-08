@@ -21,6 +21,7 @@ public class ChangeWordActivity extends ActionBarActivity implements OnClickList
 	EditText etTransl;
 	Button btnOK;
 	Button btnDelete;
+	Button btnIknow;
 
 
 	@Override
@@ -35,9 +36,11 @@ public class ChangeWordActivity extends ActionBarActivity implements OnClickList
 		etTransl = (EditText) findViewById(R.id.etNewTransl);
 		btnOK = (Button) findViewById(R.id.btnOK);
 		btnDelete = (Button) findViewById(R.id.btnDelete);
+		btnIknow = (Button) findViewById(R.id.btnIknow);
 
 		btnOK.setOnClickListener(this);
 		btnDelete.setOnClickListener(this);
+		btnIknow.setOnClickListener(this);
 
 		etWord.setText(MainActivity.word.getName());
 		etTransc.setText(MainActivity.word.getTranscriprion());
@@ -62,6 +65,13 @@ public class ChangeWordActivity extends ActionBarActivity implements OnClickList
 		else if(v.getId() == R.id.btnDelete)
 		{
 			MainActivity.randomWord.delWordFromDB(MainActivity.word);
+			Intent intent = new Intent(this, MainActivity.class);
+			startActivity(intent);
+		}
+		else if(v.getId() == R.id.btnIknow)
+		{
+			ChangeDB.addLearnedWord(MainActivity.word);
+			MainActivity.randomWord.deleteWord(MainActivity.word);
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 		}

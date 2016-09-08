@@ -14,5 +14,6 @@
     <string name="learning_count">Изучаемых слов</string>
     <string name="learned_count">Изученных слов</string>
     <string name="stats">Статистика</string>
+    <string name="i_know">Я знаю это слово</string>
 
 </resources>

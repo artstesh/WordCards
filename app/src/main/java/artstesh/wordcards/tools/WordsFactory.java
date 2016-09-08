@@ -9,27 +9,17 @@ public class WordsFactory
 
 	public Word getWord()
 	{
-		return word;
-	}
-
-	public void setWord(Word word)
-	{
-		this.word = word;
-	}
-
-	public Word getNewWord()
-	{
 		if(word == null) {word =  new Word();}
 		return word;
 	}
 
-	public Word getNewWord(String name, String transcriprion, String translation)
+	public Word getWord(String name, String transcriprion, String translation)
 	{
 		word = new Word(name, transcriprion, translation);
 		return word;
 	}
 
-	public Word getNewWord(String name, String transcriprion, String translation, int rating, int tryings)
+	public Word getWord(String name, String transcriprion, String translation, int rating, int tryings)
 	{
 		word =  new Word(name, transcriprion, translation, rating, tryings);
 		return word;

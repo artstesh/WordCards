@@ -32,8 +32,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/delete_nWord"
                 android:id="@+id/btnDelete"
-                android:layout_gravity="top|left"
-                style="@android:style/Widget.Holo.Light.ActionButton.Overflow"/>
+                style="@android:style/Widget.Holo.Light.ActionButton.Overflow"
+                android:layout_gravity="left"
+                android:layout_weight="1"/>
+
+            <Button
+                style="@android:style/Widget.Holo.Light.ActionButton.Overflow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/i_know"
+                android:id="@+id/btnIknow"
+                android:layout_column="22"
+                android:layout_weight="1"
+                />
+
         </TableRow>
 
         <TableRow

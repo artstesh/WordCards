@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
 import artstesh.wordcards.tools.RandomWord;
-import artstesh.wordcards.tools.Word;
+import artstesh.wordcards.tools.WordsFactory;
 import artstesh.wordcards.tools.db.ChangeDB;
 import artstesh.wordcards.tools.db.DBHelper;
 
@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 	public static SQLiteDatabase database;
 	public static ContentValues cv;
 	public static RandomWord randomWord;
-	public static Word word;
+	public static WordsFactory factory = WordsFactory.getInstance();
 	static float fromPosition;
 	Button btnChange;
 
@@ -41,22 +41,22 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-		if(word == null && !getIntent().hasExtra("name"))
+		System.out.println("LAYOUT WAS CREATED");
+		System.out.println("factory1 " + factory.getWord());
+		if(factory.getWord().getName().length()< 1 && !getIntent().hasExtra("name"))
 		{
 			dbHelper = new DBHelper(this, "dictionary", null, 1);
 			database = dbHelper.getWritableDatabase();
 			cv = new ContentValues();
 			randomWord = new RandomWord();
-
 		}
-		else if(word != null && getIntent().hasExtra("name"))
+		else if(getIntent().hasExtra("name"))
 		{
+			System.out.println("Intent has EXTRA~!!!!!!!!!!!!!!");
 			randomWord = new RandomWord();
 		}
 
-		word = randomWord.getRandomWord();
-
+		factory = WordsFactory.getInstance(randomWord.getRandomWord());
 		// Устанавливаем listener касаний, для последующего перехвата жестов
 		LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
 		mainLayout.setOnTouchListener(this);
@@ -72,9 +72,15 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 			flipper.addView(inflater.inflate(layout,null));
 		}
 		EditText name = (EditText) flipper.getChildAt(0).findViewById(R.id.etWord);
-		name.setText(word.getName());
+		System.out.println("factory1.5 " + factory.getWord());
+
+
+		System.out.println("factory2 " + factory.getWord());
+
 		btnChange = (Button) flipper.getChildAt(0).findViewById(R.id.btnChange);
 		btnChange.setOnClickListener(this);
+		System.out.println("factory3 " + factory.getWord());
+		name.setText(factory.getWord().getName());
 	}
 
 	@Override
@@ -134,23 +140,23 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 				{
 					if(layoutCount == 0)
 					{
-						word.setTryings(0);
-						ChangeDB.setTryings(word,0);
-						System.out.println(word.toString());
+						factory.getWord().setTryings(0);
+						ChangeDB.setTryings(factory.getWord(),0);
+						System.out.println("Move LEFT" + factory.getWord().toString());
 						EditText name = (EditText) flipper.getChildAt(1).findViewById(R.id.etTranslate);
-						name.setText(word.getTranslation());
+						name.setText(factory.getWord().getTranslation());
 						layoutCount = 1;
 						flipper.showNext();
 					}
 					else if(layoutCount == 1)
 					{
-						word = randomWord.getRandomWord();
+						factory.setWord(randomWord.getRandomWord());
 						layoutCount = 0;
 						EditText name = (EditText) flipper.getChildAt(0).findViewById(R.id.etWord);
-						System.out.println(word.getName());
-						name.setText(word.getName());
+						System.out.println("Move LEFT" + factory.getWord().getName());
+						name.setText(factory.getWord().getName());
 						EditText transcription = (EditText) flipper.getChildAt(0).findViewById(R.id.etTranscriprion);
-						transcription.setText(word.getTranscriprion());
+						transcription.setText(factory.getWord().getTranscriprion());
 
 						flipper.showNext();
 						//flipper.showNext();
@@ -166,19 +172,19 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 					}
 					else
 					{
-						word.setTryings(word.getTryings() + 1);
-						ChangeDB.setTryings(word, word.getTryings());
-						if(word.getTryings() > 4)
+						factory.getWord().setTryings(factory.getWord().getTryings() + 1);
+						ChangeDB.setTryings(factory.getWord(), factory.getWord().getTryings());
+						if(factory.getWord().getTryings() > 4)
 						{
-							word.setTryings(0);
-							word.setRating(word.getRating()-1);
-							ChangeDB.setRating(word, word.getRating());
-							randomWord.deleteWord(word);
+							factory.getWord().setTryings(0);
+							factory.getWord().setRating(factory.getWord().getRating() - 1);
+							ChangeDB.setRating(factory.getWord(), factory.getWord().getRating());
+							randomWord.deleteWord(factory.getWord());
 						}
-						System.out.println(word.toString());
-						word = randomWord.getRandomWord();
+						System.out.println("Move RIGHT" + factory.getWord().toString());
+						factory.setWord(randomWord.getRandomWord());
 						EditText name = (EditText) flipper.getChildAt(0).findViewById(R.id.etWord);
-						name.setText(word.getName());
+						name.setText(factory.getWord().getName());
 						layoutCount = 0;
 						flipper.showNext();
 						flipper.showNext();
@@ -196,10 +202,10 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 	public void onClick(View v)
 	{
 		Intent intent;
-		if(word.getTranslation().equalsIgnoreCase("-----"))
+		if(factory.getWord().getTranslation().equalsIgnoreCase("-----"))
 		{
 			intent = new Intent(this, NewWord.class);
-			intent.putExtra("word",word.getName());
+			intent.putExtra("word",factory.getWord().getName());
 		}
 		else
 		{

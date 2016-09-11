@@ -15,14 +15,14 @@ public class Word
 				" tryings - " + tryings;
 	}
 
-	public Word()
+	Word()
 	{
 		this.name = "";
 		this.transcriprion = "";
 		this.translation = "";
 	}
 
-	public Word(String name, String transcriprion, String translation)
+	Word(String name, String transcriprion, String translation)
 	{
 		this.name = name;
 		this.transcriprion = transcriprion;

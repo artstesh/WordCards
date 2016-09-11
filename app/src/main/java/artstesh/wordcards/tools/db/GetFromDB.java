@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import artstesh.wordcards.MainActivity;
 import artstesh.wordcards.tools.Word;
+import artstesh.wordcards.tools.WordsFactory;
 
 /**
   													***
@@ -13,6 +14,7 @@ import artstesh.wordcards.tools.Word;
  */
 public class GetFromDB
 {
+	private static WordsFactory factory;
 	public static ArrayList<Word> words = new ArrayList<Word>();
 
 	public static String[] translateWord(String word)
@@ -60,6 +62,7 @@ public class GetFromDB
 
 	public static ArrayList<Word> get300words()
 	{
+		factory = WordsFactory.getInstance();
 		String query = "SELECT * FROM " + DBLearning.LEARNING_TABLE;
 
 		Cursor cursor = MainActivity.database.rawQuery(query, null);
@@ -71,9 +74,8 @@ public class GetFromDB
 			int rating = cursor.getInt(cursor.getColumnIndex(DBLearning.RATING));
 			int tryings = cursor.getInt(cursor.getColumnIndex(DBLearning.TRYING_COUNT));
 			String[] trans = translateWord(name);
-			Word word = new Word(name, trans[0], trans[1], rating, tryings);
-			words.add(word);
-			System.out.println(word);
+			words.add(factory.getWord(name, trans[0], trans[1], rating, tryings));
+			System.out.println(factory.getWord(name, trans[0], trans[1], rating, tryings));
 			cursor.moveToNext();
 		}
 		cursor.close();

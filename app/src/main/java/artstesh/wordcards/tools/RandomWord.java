@@ -12,6 +12,7 @@ import artstesh.wordcards.tools.db.GetFromDB;
 public class RandomWord
 {
 	ArrayList<Word> words300 = new ArrayList<Word>();
+	WordsFactory factory = WordsFactory.getInstance();
 
 	public RandomWord()
 	{
@@ -21,22 +22,25 @@ public class RandomWord
 
 	public Word getRandomWord()
 	{
-	//Collections.shuffle(words300);
 		if(words300.size()<1) {return new Word();}
-		int rand = (int) (Math.random()*words300.size());
-		int stoper = 10;
-		int tryings = 0;
-		int randomRating = (int) (Math.random()*stoper);
-		while((words300.get(rand).getRating()) < randomRating)
+		int stoper = 10, tryings = 0;
+		factory.setWord(words300.get(getRandInt(words300.size())));
+		while(factory.getWord().getRating() < getRandInt(stoper))
 		{
-			if(isLearnedWord(words300.get(rand))) {words300.remove(rand);}
+			if(isLearnedWord(factory.getWord())) {words300.remove(factory.getWord());}
 			tryings++;
 			if(tryings>10) {stoper--;}
-			rand = (int) (Math.random()*words300.size());
-			randomRating = (int) (Math.random()*stoper);
+			factory.setWord(words300.get(getRandInt(words300.size())));
 		}
+		return factory.getWord();
+	}
 
-		return words300.get(rand);
+	private int getRandInt(int num)
+	{
+		long str = System.currentTimeMillis();
+		int rest  = (int) (Math.random()*System.currentTimeMillis()%num);
+		System.out.println(System.currentTimeMillis() - str);
+		return rest;
 	}
 
 	private boolean isLearnedWord(Word word)

@@ -12,7 +12,8 @@ import static org.junit.Assert.*;
 public class RandomWordTest
 {
 	ArrayList<Word> words300 = new ArrayList<Word>();
-
+	WordsFactory factory = WordsFactory.getInstance();
+	int randomInt;
 
 	@Test
 	public void testRefresh30() throws Exception
@@ -30,18 +31,24 @@ public class RandomWordTest
 	public void testGetRandomWord() throws Exception
 	{
 		testAddWord300();
-		int rand = (int) (Math.random()*words300.size());
-		int stoper = 10;
-		int tryings = 0;
-		int randomRating = (int) (Math.random()*stoper);
-		while((words300.get(rand).getRating()) < randomRating)
+		int stoper = 10, tryings = 0;
+		factory.setWord(words300.get(getRandInt(words300.size())));
+		while(factory.getWord().getRating() < getRandInt(stoper))
 		{
 			tryings++;
 			if(tryings>10) {stoper--;}
-			rand = (int) (Math.random()*words300.size());
-			randomRating = (int) (Math.random()*stoper);
+			factory.setWord(words300.get(getRandInt(words300.size())));
 		}
-		System.out.println(words300.get(rand).toString());
+		System.out.println(factory.getWord());
+	}
+
+
+	public int getRandInt(int num)
+	{
+		long str = System.currentTimeMillis();
+		int rest  = (int) (Math.random()*System.currentTimeMillis()%num);
+		System.out.println(System.currentTimeMillis() - str);
+		return rest;
 	}
 
 	@Test

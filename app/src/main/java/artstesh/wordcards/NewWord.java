@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import artstesh.wordcards.tools.Word;
+import artstesh.wordcards.tools.WordsFactory;
 import artstesh.wordcards.tools.db.ChangeDB;
 
 public class NewWord extends ActionBarActivity implements View.OnClickListener
@@ -18,6 +19,7 @@ public class NewWord extends ActionBarActivity implements View.OnClickListener
 	EditText etTransc;
 	EditText etTransl;
 	Button btnOK;
+	WordsFactory factory;
 
 
 	@Override
@@ -31,6 +33,7 @@ public class NewWord extends ActionBarActivity implements View.OnClickListener
 		etTransl = (EditText) findViewById(R.id.etNewTransl);
 		btnOK = (Button) findViewById(R.id.btnOK);
 		btnOK.setOnClickListener(this);
+		factory = WordsFactory.getInstance();
 
 		Intent intent = getIntent();
 
@@ -46,8 +49,8 @@ public class NewWord extends ActionBarActivity implements View.OnClickListener
 		if(v.getId() == R.id.btnOK)
 		{
 			System.out.println(etWord.getText() + " " + etTransc.getText() + " " + etTransl.getText());
-			ChangeDB.addWord(new Word(String.valueOf(etWord.getText()), String.valueOf(etTransc.getText()), String.valueOf(etTransl.getText())));
-			MainActivity.randomWord.addWord300(new Word(String.valueOf(etWord.getText()), String.valueOf(etTransc.getText()), String.valueOf(etTransl.getText())));
+			ChangeDB.addWord(factory.getWord(String.valueOf(etWord.getText()), String.valueOf(etTransc.getText()), String.valueOf(etTransl.getText())));
+			MainActivity.randomWord.addWord300(factory.getWord(String.valueOf(etWord.getText()), String.valueOf(etTransc.getText()), String.valueOf(etTransl.getText())));
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 		}

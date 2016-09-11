@@ -5,19 +5,21 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import artstesh.wordcards.MainActivity;
 import artstesh.wordcards.tools.Word;
+import artstesh.wordcards.tools.WordsFactory;
 
 public class ChangeDB
 {
+	static WordsFactory factory = WordsFactory.getInstance();
 	public static void changeWord(String prevName)
 	{
 		ContentValues contentValues = DBSupplier.makeContValues(
-									DBDictionary.WORD_COLUMN, MainActivity.word.getName(),
-									DBDictionary.TRANSCRIPTION_COLUMN, MainActivity.word.getTranscriprion(),
-									DBDictionary.TRANSLATION_COLUMN, MainActivity.word.getTranslation());
+									DBDictionary.WORD_COLUMN, factory.getWord().getName(),
+									DBDictionary.TRANSCRIPTION_COLUMN, factory.getWord().getTranscriprion(),
+									DBDictionary.TRANSLATION_COLUMN, factory.getWord().getTranslation());
 		GetFromDB.isWordInDB(prevName,DBDictionary.DIC_TABLE,DBDictionary.WORD_COLUMN);
 		//MainActivity.database.update(DBDictionary.DIC_TABLE, contentValues, DBDictionary.WORD_COLUMN + " = " + "\"" + prevName + "\"", null);
 		MainActivity.database.update(DBDictionary.DIC_TABLE, contentValues, DBDictionary.WORD_COLUMN + " = ?", new String[]{prevName});
-		ContentValues contentValues2 = DBSupplier.makeContValues(DBLearning.WORD_COLUMN, MainActivity.word.getName());
+		ContentValues contentValues2 = DBSupplier.makeContValues(DBLearning.WORD_COLUMN, factory.getWord().getName());
 		MainActivity.database.update(DBLearning.LEARNING_TABLE, contentValues2, DBLearning.WORD_COLUMN + " = " + "\"" + prevName + "\"", null);
 	}
 

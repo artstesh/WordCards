@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import artstesh.wordcards.tools.Word;
+import artstesh.wordcards.tools.WordsFactory;
 import artstesh.wordcards.tools.db.ChangeDB;
 
 public class ChangeWordActivity extends ActionBarActivity implements OnClickListener
@@ -22,6 +23,7 @@ public class ChangeWordActivity extends ActionBarActivity implements OnClickList
 	Button btnOK;
 	Button btnDelete;
 	Button btnIknow;
+	WordsFactory factory;
 
 
 	@Override
@@ -42,9 +44,10 @@ public class ChangeWordActivity extends ActionBarActivity implements OnClickList
 		btnDelete.setOnClickListener(this);
 		btnIknow.setOnClickListener(this);
 
-		etWord.setText(MainActivity.word.getName());
-		etTransc.setText(MainActivity.word.getTranscriprion());
-		etTransl.setText(MainActivity.word.getTranslation());
+		factory = WordsFactory.getInstance();
+		etWord.setText(factory.getWord().getName());
+		etTransc.setText(factory.getWord().getTranscriprion());
+		etTransl.setText(factory.getWord().getTranslation());
 
 	}
 
@@ -53,25 +56,25 @@ public class ChangeWordActivity extends ActionBarActivity implements OnClickList
 	{
 		if(v.getId() == R.id.btnOK)
 		{
-			String prevName = MainActivity.word.getName();
-			MainActivity.word.setName(String.valueOf(etWord.getText()));
-			MainActivity.word.setTranscriprion(String.valueOf(etTransc.getText()));
-			MainActivity.word.setTranslation(String.valueOf(etTransl.getText()));
-			System.out.println("!!! - " + MainActivity.word.toString());
+			String prevName = factory.getWord().getName();
+			factory.getWord().setName(String.valueOf(etWord.getText()));
+			factory.getWord().setTranscriprion(String.valueOf(etTransc.getText()));
+			factory.getWord().setTranslation(String.valueOf(etTransl.getText()));
+			System.out.println("!!! - " + factory.getWord().toString());
 			ChangeDB.changeWord(prevName);
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 		}
 		else if(v.getId() == R.id.btnDelete)
 		{
-			MainActivity.randomWord.delWordFromDB(MainActivity.word);
+			MainActivity.randomWord.delWordFromDB(factory.getWord());
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 		}
 		else if(v.getId() == R.id.btnIknow)
 		{
-			ChangeDB.addLearnedWord(MainActivity.word);
-			MainActivity.randomWord.deleteWord(MainActivity.word);
+			ChangeDB.addLearnedWord(factory.getWord());
+			MainActivity.randomWord.deleteWord(factory.getWord());
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 		}
